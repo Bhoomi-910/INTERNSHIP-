@@ -21,15 +21,17 @@ const Dashboard = () => {
         const fetchDashboardData = async () => {
             try {
                 const skillsRes = await axios.get('/user/skills');
-                setSkills(skillsRes.data);
+                setSkills(Array.isArray(skillsRes.data) ? skillsRes.data : []);
             } catch (error) {
                 console.error("Failed to fetch skills", error);
+                setSkills([]);
             }
             try {
                 const appsRes = await axios.get('/user/applications');
-                setApplications(appsRes.data);
+                setApplications(Array.isArray(appsRes.data) ? appsRes.data : []);
             } catch (error) {
                 console.error("Failed to fetch applications", error);
+                setApplications([]);
             }
         };
         fetchDashboardData();
@@ -71,9 +73,10 @@ const Dashboard = () => {
         setLoadingRecs(true);
         try {
             const res = await axios.get('/recommendations');
-            setRecommendations(res.data);
+            setRecommendations(Array.isArray(res.data) ? res.data : []);
         } catch (error) {
             console.error(error);
+            setRecommendations([]);
         } finally {
             setLoadingRecs(false);
         }

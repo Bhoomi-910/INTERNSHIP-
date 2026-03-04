@@ -12,9 +12,10 @@ const AdminDashboard = () => {
         const fetchStats = async () => {
             try {
                 const res = await axios.get('/admin/stats');
-                setStats(res.data);
+                setStats(res.data && typeof res.data === 'object' ? res.data : { users: 0, internships: 0, applications: 0 });
             } catch (error) {
                 console.error("Failed to fetch admin stats", error);
+                setStats({ users: 0, internships: 0, applications: 0 });
             } finally {
                 setLoading(false);
             }

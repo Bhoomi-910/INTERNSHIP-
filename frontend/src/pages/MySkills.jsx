@@ -20,9 +20,10 @@ const MySkills = () => {
     const fetchSkills = async () => {
         try {
             const res = await axios.get('/user/skills');
-            setSkills(res.data);
+            setSkills(Array.isArray(res.data) ? res.data : []);
         } catch (error) {
             console.error("Failed to fetch skills", error);
+            setSkills([]);
         } finally {
             setLoading(false);
         }

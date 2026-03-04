@@ -25,10 +25,13 @@ const Internships = () => {
     const fetchInternships = async () => {
         try {
             const res = await axios.get('/internships');
-            setInternships(res.data);
-            setFilteredInternships(res.data);
+            const data = Array.isArray(res.data) ? res.data : [];
+            setInternships(data);
+            setFilteredInternships(data);
         } catch (error) {
             console.error(error);
+            setInternships([]);
+            setFilteredInternships([]);
         } finally {
             setLoading(false);
         }
