@@ -15,7 +15,10 @@ from parser import parse_resume
 app = Flask(__name__)
 
 # Configuration (reads from env vars for production, falls back to dev defaults)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///internship_platform.db')
+database_url = os.environ.get('DATABASE_URL', 'sqlite:///internship_platform.db')
+if database_url.startswith('postgres://'):
+    database_url = database_url.replace('postgres://', 'postgresql://', 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY', 'your-secret-key-change-in-production')
 app.config['UPLOAD_FOLDER'] = 'uploads'
