@@ -20,14 +20,16 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchDashboardData = async () => {
             try {
-                const [skillsRes, appsRes] = await Promise.all([
-                    axios.get('/user/skills'),
-                    axios.get('/user/applications')
-                ]);
+                const skillsRes = await axios.get('/user/skills');
                 setSkills(skillsRes.data);
+            } catch (error) {
+                console.error("Failed to fetch skills", error);
+            }
+            try {
+                const appsRes = await axios.get('/user/applications');
                 setApplications(appsRes.data);
             } catch (error) {
-                console.error("Failed to fetch dashboard data", error);
+                console.error("Failed to fetch applications", error);
             }
         };
         fetchDashboardData();

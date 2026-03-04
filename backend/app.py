@@ -354,16 +354,16 @@ def get_user_applications():
     applications = Application.query.filter_by(user_id=current_user_id).all()
 
     output = []
-    for app in applications:
-        internship = Internship.query.get(app.internship_id)
+    for application in applications:
+        internship = Internship.query.get(application.internship_id)
         if internship:
             output.append({
-                "id": app.id,
+                "id": application.id,
                 "internship_id": internship.id,
                 "title": internship.title,
                 "company": internship.company,
-                "status": app.status,
-                "applied_at": app.applied_at.isoformat()
+                "status": application.status,
+                "applied_at": application.applied_at.isoformat()
             })
     return jsonify(output), 200
 
