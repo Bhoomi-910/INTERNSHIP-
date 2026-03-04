@@ -88,6 +88,8 @@ def upload_resume():
         # Update user skills in DB
         current_user_id = get_jwt_identity()
         user = User.query.get(current_user_id)
+        if not user:
+            return jsonify({"message": "User not found"}), 404
         user.resume_url = filepath
 
         # Logic to associate extracted skills with user
@@ -117,6 +119,8 @@ def upload_resume():
 def get_user_recommendations():
     current_user_id = get_jwt_identity()
     user = User.query.get(current_user_id)
+    if not user:
+        return jsonify({"message": "User not found"}), 404
 
     # Get user skills as a list of strings
     user_skills = [s.name for s in user.skills]
@@ -178,6 +182,8 @@ def get_skill_gap():
 
     current_user_id = get_jwt_identity()
     user = User.query.get(current_user_id)
+    if not user:
+        return jsonify({"message": "User not found"}), 404
     user_skills = [s.name for s in user.skills]
 
     analysis = analyze_skill_gap(user_skills, target_skills)
@@ -194,6 +200,8 @@ def get_skill_gap():
 def admin_stats():
     current_user_id = get_jwt_identity()
     user = User.query.get(current_user_id)
+    if not user:
+        return jsonify({"message": "User not found"}), 404
     if user.role != 'admin':
         return jsonify({"message": "Unauthorized"}), 403
 
@@ -212,6 +220,8 @@ def admin_stats():
 def manage_skills():
     current_user_id = get_jwt_identity()
     user = User.query.get(current_user_id)
+    if not user:
+        return jsonify({"message": "User not found"}), 404
 
     if request.method == 'GET':
         return jsonify([s.name for s in user.skills]), 200
@@ -297,6 +307,9 @@ def update_profile():
 def add_internship():
     current_user_id = get_jwt_identity()
     user = User.query.get(current_user_id)
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
     if user.role != 'admin':
         return jsonify({"message": "Unauthorized"}), 403
 
@@ -373,6 +386,9 @@ def get_user_applications():
 def get_admin_users():
     current_user_id = get_jwt_identity()
     user = User.query.get(current_user_id)
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
     if user.role != 'admin':
         return jsonify({"message": "Unauthorized"}), 403
 
@@ -415,6 +431,9 @@ def delete_admin_user(user_id):
 def get_admin_applications():
     current_user_id = get_jwt_identity()
     user = User.query.get(current_user_id)
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
     if user.role != 'admin':
         return jsonify({"message": "Unauthorized"}), 403
 
