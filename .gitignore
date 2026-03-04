@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+backend/__pycache__/
+backend/instance/
+backend/uploads/
+*.db
+
+# Environment
+.env
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+frontend/dist/
+frontend/build/
+
+# Misc
+*.log
+convert_md_to_docx.py
