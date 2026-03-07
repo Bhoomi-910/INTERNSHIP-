@@ -37,6 +37,14 @@ with app.app_context():
 
 # --- Routes ---
 
+@app.route('/', methods=['GET'])
+def index():
+    return jsonify({
+        "message": "Welcome to the InternAI Backend API!",
+        "status": "online",
+        "docs": "Endpoints include /login, /register, /internships, /skills, and more."
+    }), 200
+
 @app.route('/health', methods=['GET'])
 def health_check():
     return jsonify({"status": "ok"}), 200
