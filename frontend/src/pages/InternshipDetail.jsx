@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Briefcase, MapPin, Search, Check, AlertCircle, ArrowLeft, Building, Zap, Users } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import toast from 'react-hot-toast';
 
 const InternshipDetail = () => {
     const { id } = useParams();
@@ -35,8 +36,9 @@ const InternshipDetail = () => {
         try {
             const res = await axios.post('/skill_gap', { target_role: internship.title });
             setAnalysis(res.data);
+            toast.success("Analysis complete!");
         } catch (error) {
-            alert("Could not analyze gap. Try manually entering the role in Dashboard.");
+            toast.error("Could not analyze gap. Try manually entering the role in Dashboard.");
         } finally {
             setAnalyzing(false);
         }
@@ -46,9 +48,9 @@ const InternshipDetail = () => {
         if (!internship) return;
         try {
             const res = await axios.post('/apply', { internship_id: internship.id });
-            alert(res.data.message);
+            toast.success(res.data.message || "Application submitted!");
         } catch (error) {
-            alert(error.response?.data?.message || "Failed to submit application.");
+            toast.error(error.response?.data?.message || "Failed to submit application.");
         }
     };
 

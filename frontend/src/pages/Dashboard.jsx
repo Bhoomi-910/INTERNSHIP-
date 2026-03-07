@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Upload, Briefcase, BookOpen, AlertCircle, Check, Search, MapPin, Building, TrendingUp, Users, Calendar } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const Dashboard = () => {
     const { user } = useAuth();
@@ -14,6 +15,7 @@ const Dashboard = () => {
     const [gapAnalysis, setGapAnalysis] = useState(null);
     const [analyzingGap, setAnalyzingGap] = useState(false);
     const [targetRole, setTargetRole] = useState('');
+    const [isDragging, setIsDragging] = useState(false);
 
     const [applications, setApplications] = useState([]);
 
@@ -44,7 +46,27 @@ const Dashboard = () => {
     }, [skills]);
 
     const handleFileChange = (e) => {
-        setFile(e.target.files[0]);
+        if (e.target.files && e.target.files.length > 0) {
+            setFile(e.target.files[0]);
+        }
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        setIsDragging(true);
+    };
+
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        setIsDragging(false);
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        setIsDragging(false);
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            setFile(e.dataTransfer.files[0]);
+        }
     };
 
     const handleUpload = async (e) => {
@@ -60,10 +82,10 @@ const Dashboard = () => {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             setSkills(res.data.extracted_skills);
-            alert("Resume parsed successfully!");
+            toast.success("Resume parsed successfully!");
         } catch (error) {
             console.error(error);
-            alert('Failed to upload resume.');
+            toast.error('Failed to upload resume.');
         } finally {
             setUploading(false);
         }
@@ -91,7 +113,7 @@ const Dashboard = () => {
             const res = await axios.post('/skill_gap', { target_role: targetRole });
             setGapAnalysis(res.data);
         } catch (e) {
-            alert(e.response?.data?.message || "Analysis failed");
+            toast.error(e.response?.data?.message || "Analysis failed");
         } finally {
             setAnalyzingGap(false);
         }
@@ -155,7 +177,12 @@ const Dashboard = () => {
                             <Upload size={22} className="text-indigo-600" /> Upload Resume
                         </h2>
                         <form onSubmit={handleUpload} className="space-y-4 relative z-10">
-                            <div className="border-2 border-dashed border-indigo-200/60 rounded-2xl p-8 text-center bg-slate-50/50 hover:bg-white hover:border-indigo-400 transition-all duration-300 cursor-pointer group shadow-sm">
+                            <div
+                                className={`border-2 border-dashed ${isDragging ? 'border-indigo-500 bg-indigo-50 scale-[1.02]' : 'border-indigo-200/60 bg-slate-50/50'} rounded-2xl p-8 text-center hover:bg-white hover:border-indigo-400 transition-all duration-300 cursor-pointer group shadow-sm`}
+                                onDragOver={handleDragOver}
+                                onDragLeave={handleDragLeave}
+                                onDrop={handleDrop}
+                            >
                                 <input
                                     type="file"
                                     accept=".pdf"

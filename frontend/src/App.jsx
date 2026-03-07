@@ -24,9 +24,12 @@ const ProtectedRoute = ({ children }) => {
 
 
 
+import { Toaster } from 'react-hot-toast';
+
 function App() {
     return (
         <Router>
+            <Toaster position="top-right" />
             <div className="min-h-screen bg-gray-50">
                 <Routes>
                     <Route path="/" element={<><Navbar /><Home /></>} />

@@ -50,11 +50,16 @@ export const AuthProvider = ({ children }) => {
     }
 
     const logout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        try {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            delete axios.defaults.headers.common['Authorization'];
+            sessionStorage.clear();
+        } catch (e) {
+            console.error("Logout storage clear error", e);
+        }
         setToken(null);
         setUser(null);
-        axios.defaults.headers.common['Authorization'] = '';
     };
 
     return (

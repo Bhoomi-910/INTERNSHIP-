@@ -17,7 +17,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
     const handleLogout = () => {
         logout();
-        navigate('/');
+        navigate('/login', { replace: true });
     };
 
     const navItems = [

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { User, LogOut, LayoutDashboard, Home, Menu, X } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const Navbar = ({ sidebarOpen, setSidebarOpen }) => {
     const { user, logout } = useAuth();
@@ -9,7 +10,8 @@ const Navbar = ({ sidebarOpen, setSidebarOpen }) => {
 
     const handleLogout = () => {
         logout();
-        navigate('/');
+        toast.success('Logged out successfully');
+        navigate('/login', { replace: true });
     };
 
     return (

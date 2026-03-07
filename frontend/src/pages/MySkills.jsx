@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { Plus, X, Trash2, BookOpen, AlertCircle, ShieldCheck } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const MySkills = () => {
     const { user } = useAuth();
@@ -41,14 +42,15 @@ const MySkills = () => {
                 const addedSkillName = res.data.skill || newSkill;
                 setSkills([...skills, addedSkillName]);
                 setNewSkill('');
+                toast.success(`Skill "${addedSkillName}" added successfully.`);
             } else {
                 // Determine if it was a success message (like "already exists") or error
-                alert(res.data.message);
+                toast(res.data.message, { icon: 'ℹ️' });
             }
         } catch (error) {
             console.error("Add skill error:", error);
             const msg = error.response?.data?.message || 'Failed to add skill. Please try again.';
-            alert(msg);
+            toast.error(msg);
         } finally {
             setAdding(false);
         }
@@ -58,8 +60,9 @@ const MySkills = () => {
         try {
             await axios.delete('/user/skills', { data: { skill: skillName } });
             setSkills(skills.filter(s => s !== skillName));
+            toast.success(`Skill "${skillName}" removed.`);
         } catch (error) {
-            alert('Failed to remove skill');
+            toast.error('Failed to remove skill');
         }
     };
 

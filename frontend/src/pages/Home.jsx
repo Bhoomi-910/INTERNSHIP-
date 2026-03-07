@@ -113,6 +113,42 @@ const Home = () => {
                 </div>
             </div>
 
+            {/* Trusted By Section (Marquee) */}
+            <div className="py-10 bg-white border-y border-slate-100 overflow-hidden relative">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
+                    <p className="text-center text-sm font-bold text-slate-400 uppercase tracking-widest">
+                        Trusted by industry leaders
+                    </p>
+                </div>
+                <div className="relative flex overflow-x-hidden group">
+                    <div className="animate-marquee whitespace-nowrap flex items-center gap-12 sm:gap-24 px-6 sm:px-12 group-hover:[animation-play-state:paused]">
+                        {/* First set of companies */}
+                        <span className="text-xl sm:text-2xl font-black text-slate-300 font-display uppercase tracking-wider">Google</span>
+                        <span className="text-xl sm:text-2xl font-black text-slate-300 font-display uppercase tracking-wider">Microsoft</span>
+                        <span className="text-xl sm:text-2xl font-black text-slate-300 font-display uppercase tracking-wider">Amazon</span>
+                        <span className="text-xl sm:text-2xl font-black text-slate-300 font-display uppercase tracking-wider">Apple</span>
+                        <span className="text-xl sm:text-2xl font-black text-slate-300 font-display uppercase tracking-wider">Meta</span>
+                        <span className="text-xl sm:text-2xl font-black text-slate-300 font-display uppercase tracking-wider">Netflix</span>
+                        <span className="text-xl sm:text-2xl font-black text-slate-300 font-display uppercase tracking-wider">Tesla</span>
+                        <span className="text-xl sm:text-2xl font-black text-slate-300 font-display uppercase tracking-wider">Spotify</span>
+                    </div>
+                    {/* Duplicate for seamless looping */}
+                    <div className="absolute top-0 animate-marquee whitespace-nowrap flex items-center gap-12 sm:gap-24 px-6 sm:px-12 group-hover:[animation-play-state:paused]" style={{ left: '100%' }}>
+                        <span className="text-xl sm:text-2xl font-black text-slate-300 font-display uppercase tracking-wider">Google</span>
+                        <span className="text-xl sm:text-2xl font-black text-slate-300 font-display uppercase tracking-wider">Microsoft</span>
+                        <span className="text-xl sm:text-2xl font-black text-slate-300 font-display uppercase tracking-wider">Amazon</span>
+                        <span className="text-xl sm:text-2xl font-black text-slate-300 font-display uppercase tracking-wider">Apple</span>
+                        <span className="text-xl sm:text-2xl font-black text-slate-300 font-display uppercase tracking-wider">Meta</span>
+                        <span className="text-xl sm:text-2xl font-black text-slate-300 font-display uppercase tracking-wider">Netflix</span>
+                        <span className="text-xl sm:text-2xl font-black text-slate-300 font-display uppercase tracking-wider">Tesla</span>
+                        <span className="text-xl sm:text-2xl font-black text-slate-300 font-display uppercase tracking-wider">Spotify</span>
+                    </div>
+                </div>
+                {/* Gradient Fades for Marquee */}
+                <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
+                <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
+            </div>
+
             {/* Features Section */}
             <div className="py-24 bg-white relative">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

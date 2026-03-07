@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { User, Mail, Lock, CheckCircle, AlertCircle, Save, Shield } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const Settings = () => {
     const { user, login } = useAuth();
@@ -10,13 +11,11 @@ const Settings = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [saving, setSaving] = useState(false);
-    const [message, setMessage] = useState(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setMessage(null);
         if (password && password !== confirmPassword) {
-            setMessage({ type: 'error', text: 'Passwords do not match' });
+            toast.error('Passwords do not match');
             return;
         }
 
@@ -26,9 +25,9 @@ const Settings = () => {
             if (password) data.password = password;
 
             const res = await axios.put('/user/profile', data);
-            setMessage({ type: 'success', text: 'Profile updated successfully' });
+            toast.success('Profile updated successfully');
         } catch (error) {
-            setMessage({ type: 'error', text: error.response?.data?.message || 'Update failed' });
+            toast.error(error.response?.data?.message || 'Update failed');
         } finally {
             setSaving(false);
         }
@@ -43,13 +42,6 @@ const Settings = () => {
 
             <div className="bg-white rounded-[2rem] shadow-xl shadow-indigo-500/5 border border-slate-100 p-8 md:p-12 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-50 rounded-full blur-3xl -mr-32 -mt-32 opacity-50 pointer-events-none"></div>
-
-                {message && (
-                    <div className={`mb-10 p-4 rounded-xl flex items-center gap-3 border backdrop-blur-sm relative z-10 ${message.type === 'success' ? 'bg-emerald-50/80 text-emerald-700 border-emerald-200 shadow-sm shadow-emerald-500/10' : 'bg-rose-50/80 text-rose-700 border-rose-200 shadow-sm shadow-rose-500/10'} animate-fade-in-down`}>
-                        {message.type === 'success' ? <CheckCircle size={20} className="text-emerald-500" /> : <AlertCircle size={20} className="text-rose-500" />}
-                        <span className="font-bold text-sm tracking-wide">{message.text}</span>
-                    </div>
-                )}
 
                 <form onSubmit={handleSubmit} className="space-y-12 relative z-10">
                     {/* Public Profile Section */}
